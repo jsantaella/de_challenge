@@ -73,4 +73,17 @@ if __name__ == "__main__":
         from last
 
     """
-    ).show()
+    )
+
+    """
+    Se necesita un output en formato :
+    [(datetime.date(2021, 2, 12), 'RanbirS00614606'),
+    (datetime.date(2021, 2, 13), 'MaanDee08215437')] 
+    """
+    rdd = df.rdd 
+    
+    # Convertir el RDD a una tuple mediante map
+    data = rdd.map(tuple) 
+    
+    # Mostrar los datos
+    data.collect() 
