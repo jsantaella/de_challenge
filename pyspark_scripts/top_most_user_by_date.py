@@ -33,7 +33,7 @@ if __name__ == "__main__":
     3. Creación de una window function de row number para enumerar el usuario con mas interacciones y en la fecha con más trinos
     4. Se filtra la window function con = 1 para obtener el usuario que más trinó en cada fecha 
     """
-    spark.sql(
+    df = spark.sql(
     """
     With
         first as (
@@ -90,4 +90,4 @@ if __name__ == "__main__":
     data = rdd.map(tuple) 
     
     # Mostrar los datos
-    data.collect() 
+    print(data.collect())
