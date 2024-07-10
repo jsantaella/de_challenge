@@ -64,13 +64,17 @@ if __name__ == "__main__":
         last as (
         select 
         date,
+        total_date,
+        total_by_user,
         username
         from rank_users
         where row_numm = 1 
         ) 
         select 
-        * 
+        date,
+        username
         from last
+        order by total_date desc, total_by_user desc
 
     """
     )
