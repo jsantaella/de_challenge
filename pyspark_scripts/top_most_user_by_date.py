@@ -25,3 +25,52 @@ if __name__ == "__main__":
         get_json_object(df.value, "$.user.username").alias("username"),
         get_json_object(df.value, "$.date").cast("date").alias("date"),
     ).createOrReplaceTempView("dates_users")
+
+    """
+    Se utiliza spark SQL por la practicidad. Pasos a realizar mediante CTEs: 
+    1. Fecha , username y conteo total por usuario y agrupación 
+    2. Fecha, username y la suma de los conteos de trinos para obtener el total por fecha 
+    3. Creación de una window function de row number para enumerar el usuario con mas interacciones y en la fecha con más trinos
+    4. Se filtra la window function con = 1 para obtener el usuario que más trinó en cada fecha 
+    """
+    spark.sql(
+    """
+    With
+        first as (
+        select
+        date,
+        username,
+        count(1) as total_by_user
+        from dates_users
+        group by date,username
+        ),
+        total_by_user as(
+        select
+        date,
+        username,
+        total_by_user,
+        sum(total_by_user) over(partition by date) as total_date
+        from first
+        ), 
+        rank_users as (
+        select
+        date,
+        username,
+        total_by_user,
+        total_date,
+        row_number() over(partition by date order by total_date,total_by_user desc) as row_numm
+        from total_by_user 
+        ), 
+        last as (
+        select 
+        date,
+        username
+        from rank_users
+        where row_numm = 1 
+        ) 
+        select 
+        * 
+        from last
+
+    """
+    ).show()
