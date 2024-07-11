@@ -44,6 +44,7 @@ if __name__ == "__main__":
           row({'match_start': 85, 'match_end': 86, 'emoji': '🙄'})
           row({'match_start': 86, 'match_end': 87, 'emoji': '🙄'})
     Col : position - En esta transformación hacemos un substring para obtener el emoji, utilizamos específicamente un la terminación después del : 
+    Col : Count - En esta transformación ya contamos el número de veces que un emoji aparece y ordenamos de mayor a menor
 
     """
     df = (
@@ -51,4 +52,5 @@ if __name__ == "__main__":
         .withColumn("emoji_in_post", search_all_emojis(fn.col("content"))) #[{'match_start': 85, 'match_end': 86, 'emoji': '🙄'}, {'match_start': 86, 'match_end': 87, 'emoji': '🙄'}]
         .select(explode("emoji_in_post").alias("emoji_in_post")) #row({'match_start': 86, 'match_end': 87, 'emoji': '🙄'})
         .withColumn('position', fn.expr('substr(emoji_in_post, locate("emoji", emoji_in_post)+6, 1 )')) #row({'match_start': 86, 'match_end': 87, 'emoji': '🙄'}) -> row('🙄')
+        .groupBy(col('position')).count().orderBy(col("count").desc())
     )
