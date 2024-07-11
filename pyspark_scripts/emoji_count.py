@@ -60,3 +60,11 @@ if __name__ == "__main__":
         .withColumn('position', fn.expr('substr(emoji_in_post, locate("emoji", emoji_in_post)+6, 1 )')) #row({'match_start': 86, 'match_end': 87, 'emoji': '🙄'}) -> row('🙄')
         .groupBy(col('position')).count().orderBy(col("count").desc())
     )
+    
+    rdd = df.rdd 
+    
+    # Convertir el RDD a una tuple mediante map
+    data = rdd.map(tuple) 
+    
+    # Mostrar los datos
+    print(data.collect())
