@@ -38,7 +38,15 @@ if __name__ == "__main__":
     diccionario que contiene los diccionarios con el emoji y la posición donde se encontró.
     Resultados intermedios: 
     Col : emoji_in_post: [{'match_start': 85, 'match_end': 86, 'emoji': '🙄'}, {'match_start': 86, 'match_end': 87, 'emoji': '🙄'}]
+    Col : emoji_in_post - explode step: convierte los elementos de la transformación anterior en filas, de esta forma que un solo diccionario por fila
+          de esta manera se podrá avanzar en el conteo de cada emoji a tener ejemplo: 
+          [{'match_start': 85, 'match_end': 86, 'emoji': '🙄'}, {'match_start': 86, 'match_end': 87, 'emoji': '🙄'}]
+          row({'match_start': 85, 'match_end': 86, 'emoji': '🙄'})
+          row({'match_start': 86, 'match_end': 87, 'emoji': '🙄'})
+
     """
-    df = df.select(
-        fn.get_json_object(df.value, "$.content").alias("content")
-    ).withColumn("emoji_in_post", search_all_emojis(fn.col("content")))
+    df = (
+        df.select(fn.get_json_object(df.value, "$.content").alias("content"))
+        .withColumn("emoji_in_post", search_all_emojis(fn.col("content")))
+        .select(explode("emoji_in_post").alias("emoji_in_post"))
+    )
