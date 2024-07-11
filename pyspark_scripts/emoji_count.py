@@ -16,9 +16,15 @@ import re
 
 
 def find_all_emo(plain_text):
+    """
+    Función find_all_emo soportada en librería emoji
+    Argumentos: 
+        plain_test (str): Texto que contiene los potenciales emojis
+    Return: 
+        emoji_list (List): Lista con el detalle de la ocurrencia del emoji
+    """
     if plain_text is None:
         return None
-    # emo_list = regex.findall(escape_list,plain_text)
     return emoji.emoji_list(plain_text)
 
 
