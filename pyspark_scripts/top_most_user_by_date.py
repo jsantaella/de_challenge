@@ -1,5 +1,3 @@
-from typing import List, Tuple
-from datetime import datetime
 import pyspark.sql.functions as F
 from pyspark.sql.functions import *
 from pyspark.sql import SparkSession
@@ -8,7 +6,8 @@ from pyspark import SparkContext, SparkConf
 from pyspark.sql.functions import row_number
 from pyspark.sql.functions import get_json_object
 
-def q1_memory(file_path: str) -> List[Tuple[datetime.date, str]]:
+if __name__ == "__main__":
+
     # Para las pruebas se usar local[*] así utiliza todos los threads de la máquina en ambiente productivo se usa YARN.
     conf = SparkConf().setMaster("local[*]").setAppName("Dataframe_examples")
     sc = SparkContext(conf=conf)
@@ -92,4 +91,3 @@ def q1_memory(file_path: str) -> List[Tuple[datetime.date, str]]:
     
     # Mostrar los datos
     print(data.collect())
-    return data.collect()
