@@ -1,3 +1,4 @@
+#Modulo para reutilizar código de Terraform que crea un GCS bucket
 module "bucket" {
   source  = "terraform-google-modules/cloud-storage/google//modules/simple_bucket"
   version = "~> 6.0"
@@ -40,13 +41,13 @@ resource "google_storage_bucket_object" "function_code" {
   bucket = module.bucket.name
   source = data.archive_file.function_code.output_path
 }
-
+#Cargue del archivo principal de python que ejecutará el job de Dataproc
 resource "google_storage_bucket_object" "top_most_user_by_date" {
   name   = "top_most_user_by_date.py"
   source = "../pyspark_scripts/code/top_most_user_by_date.py"
   bucket = module.bucket.name
 }
-
+#Creación del workflow template que crea el cluster, envía el job y desactiva el cluster una vez finalizado
 resource "google_dataproc_workflow_template" "template" {
   name     = "${var.project_id}-dataproc-workflow"
   location = "us-west1"
