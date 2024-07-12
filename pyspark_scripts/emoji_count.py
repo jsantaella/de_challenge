@@ -1,4 +1,3 @@
-from typing import List, Tuple
 from pyspark.sql.types import (
     ArrayType,
     StructType,
@@ -15,6 +14,7 @@ import regex
 import emoji
 import re
 
+
 def find_all_emo(plain_text):
     """
     Función find_all_emo soportada en librería emoji
@@ -27,9 +27,9 @@ def find_all_emo(plain_text):
         return None
     return emoji.emoji_list(plain_text)
 
-def q2_memory(file_path: str) -> List[Tuple[str, int]]:
 
-    
+if __name__ == "__main__":
+
     conf = SparkConf().setMaster("local[*]").setAppName("Dataframe_examples")
     sc = SparkContext(conf=conf)
     spark = SparkSession(sc)
@@ -67,4 +67,4 @@ def q2_memory(file_path: str) -> List[Tuple[str, int]]:
     data = rdd.map(tuple) 
     
     # Mostrar los datos
-    return data.collect()
+    print(data.collect())
