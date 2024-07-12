@@ -31,6 +31,6 @@ module "bucket" {
 
 data "archive_file" "function_code" {
   type        = "zip"
-  source_dir  = "${path.root}/../pyspark_scripts"
+  source_dir  = "${path.root}/../pyspark_scripts/code"
   output_path = "${path.root}/function.zip"
 }
