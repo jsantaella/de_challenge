@@ -71,3 +71,10 @@ Se requiere el cargue del archivo de trinos al bucket creado en el folder para t
 Adicionalmente, se deben ajustar los valores del proyecto de GCP donde se desee ejecutar el código. 
 
 De igual forma, se creó un Dockerfile para tener disponible una aplicación contanerizada en caso de realizar pruebas en un local aisladamente. 
+
+##Ejecución del código terraform
+
+En caso de querer ejecutar la infraestructura definida en Terraform se sugiere utilizar el archivo exec.bash que automatiza los llamados init,plan y apply: 
+```
+bash exec.bash  --Ambientes Linux
+```
