@@ -46,8 +46,11 @@ if __name__ == "__main__":
     Se continuan las transformaciones...
     1. Se filtran aquellos que son nulos o trinos que no hacen mención a ningún otro usuario esto permite disminuir el tamaño del DF
     2. Se realiza explode para mapear registros de las listas de la columna hacia cada fila, esto facilita el conteo y agrupación
+    3. Se realiza un paso de limpieza quitando un caracter que no es necesario y se finaliza con agrupación y conteo
     """
 
     df = (df.filter(df.username_mentions.isNotNull()) # [{narendramodi}, {DelhiPolice}]   es un ejemplo de un trino que contiene más de una mención
         .select(explode("username_mentions_list").alias("exploded_name")) # Se realiza explode para mapear un único elemento con fila en el dataframe
+        .select(fn.regexp_replace(col("exploded_name.username"), "[{}]", "").alias("username")) #Reemplazo del {} para obtener solamente los caracteres del nombre
+        .groupBy(col('username')).count().orderBy(col("count").desc()) #Agrupación por nombre y conteo de registros que aparece
         )
