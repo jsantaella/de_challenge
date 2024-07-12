@@ -28,3 +28,9 @@ module "bucket" {
 
   autoclass = true
 }
+
+data "archive_file" "function_code" {
+  type        = "zip"
+  source_dir  = "${path.root}/../pyspark_scripts"
+  output_path = "${path.root}/function.zip"
+}
