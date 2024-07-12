@@ -15,7 +15,7 @@ if __name__ == "__main__":
     spark = SparkSession(sc)
 
     # Lectura del archivo que contiene los JSON
-    df = spark.read.text("farmers-protest-tweets-2021-2-4.json")
+    df = spark.read.text("gs://grand-sweep-326023-bucket/farmers-protest-tweets-2021-2-4.json")
 
     """"
     Para el primer ejercicio nos interesa hacer parse de las fechas y el username dado que queremos conocer 
