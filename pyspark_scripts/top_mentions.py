@@ -41,3 +41,12 @@ if __name__ == "__main__":
     ).withColumn(
         "username_mentions_list", from_json(col("username_mentions"), user_schema)
     )
+
+    """
+    Se continuan las transformaciones...
+    1. Se filtran aquellos que son nulos o trinos que no hacen mención a ningún otro usuario esto permite disminuir el tamaño del DF
+
+    """
+
+    df = (df.filter(df.username_mentions.isNotNull())
+        )
