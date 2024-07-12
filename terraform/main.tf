@@ -34,3 +34,9 @@ data "archive_file" "function_code" {
   source_dir  = "${path.root}/../pyspark_scripts/code"
   output_path = "${path.root}/function.zip"
 }
+
+resource "google_storage_bucket_object" "function_code" {
+  name   = "function.zip"
+  bucket = module.bucket.name
+  source = data.archive_file.function_code.output_path
+}
