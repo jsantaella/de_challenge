@@ -54,3 +54,11 @@ if __name__ == "__main__":
         .select(fn.regexp_replace(col("exploded_name.username"), "[{}]", "").alias("username")) #Reemplazo del {} para obtener solamente los caracteres del nombre
         .groupBy(col('username')).count().orderBy(col("count").desc()) #Agrupación por nombre y conteo de registros que aparece
         )
+    
+    rdd = df.rdd 
+    
+    # Convertir el RDD a una tuple mediante map
+    data = rdd.map(tuple) 
+    
+    # Mostrar los datos
+    print(data.collect())
