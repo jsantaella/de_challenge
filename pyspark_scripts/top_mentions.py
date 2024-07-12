@@ -1,4 +1,3 @@
-from typing import List, Tuple
 from pyspark.sql.types import (
     ArrayType,
     StructType,
@@ -13,7 +12,9 @@ import pyspark.sql.functions as fn
 import regex
 import re
 
-def q3_memory(file_path: str) -> List[Tuple[str, int]]:
+
+if __name__ == "__main__":
+
     conf = SparkConf().setMaster("local[*]").setAppName("Dataframe_examples")
     sc = SparkContext(conf=conf)
 
